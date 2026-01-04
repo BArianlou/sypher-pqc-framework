@@ -1,7 +1,7 @@
 import numpy as np
 import random
 from collections import deque
-from .sypher_ai import SypherAI
+from sypher_ai import SypherAI
 
 class RLAgent:
     """The Adaptive Shield: Policy optimization under adversarial conditions."""
