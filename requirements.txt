@@ -1,0 +1,5 @@
+numpy>=1.24.0
+tensorflow>=2.15.0
+gymnasium>=0.29.1
+cryptography>=41.0.0
+pandas>=2.1.0
