@@ -1,6 +1,4 @@
-# Sypher: Post-Quantum Cryptographic Framework
-
-![Build Status](https://img.shields.io/badge/Build-Passing-success)
+[![Sypher Security Integrity Audit](https://github.com/BArianlou/sypher-pqc-framework/actions/workflows/integrity_audit.yml/badge.svg)](https://github.com/BArianlou/sypher-pqc-framework/actions/workflows/integrity_audit.yml)
 ![Security](https://img.shields.io/badge/Security-Post--Quantum-blueviolet)
 ![Algorithm](https://img.shields.io/badge/Algorithm-Kyber--1024%20%2B%20AES--256-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
