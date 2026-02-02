@@ -1,7 +1,7 @@
 [![Sypher Security Integrity Audit](https://github.com/BArianlou/sypher-pqc-framework/actions/workflows/integrity_audit.yml/badge.svg)](https://github.com/BArianlou/sypher-pqc-framework/actions/workflows/integrity_audit.yml)
 ![Security](https://img.shields.io/badge/Security-Post--Quantum-blueviolet)
 ![Algorithm](https://img.shields.io/badge/Algorithm-Kyber--1024%20%2B%20AES--256-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/license-PROPRIETARY-red?style=flat-square)
 
 **Architect:** Bijan Arianlou | **Role:** Principal Systems Architect
 **Status:** Reference Implementation (v1.1) | **Core Logic:** Hybrid Key Encapsulation (KEM)
