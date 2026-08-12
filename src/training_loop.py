@@ -39,16 +39,26 @@ def run_sypher_training(episodes=100):
 
     for episode in range(episodes):
         state, info = env.reset()
-        state = np.reshape(state, [1, agent.state_size])
+        
         for time_step in range(100):
-            action = np.argmax(agent.model.predict(state, verbose=0)) if np.random.rand() > agent.epsilon else env.action_space.sample()
+            # Triune Fix 1: Use the Agent's encapsulated API. 
+            # The act() method handles the dimension reshaping safely.
+            action = agent.act(state)
+            
             next_state, reward, done, _, _ = env.step(action)
-            next_state = np.reshape(next_state, [1, agent.state_size])
+            
+            # Triune Fix 2: Store raw 1D states to prevent vstack dimension crashes
             agent.store_experience(state, action, reward, next_state, done)
+            
             state = next_state
-            if done: break
-        agent.train()
-        agent.epsilon = max(agent.epsilon_min, agent.epsilon * agent.epsilon_decay)
+            
+            # Triune Fix 3: Train continuously per step to stabilize the Bellman updates.
+            # Epsilon decay is safely handled internally by the agent.
+            agent.train()
+            
+            if done: 
+                break
+                
     print("Sypher Intelligence Audit: SUCCESS")
 
 if __name__ == "__main__":
