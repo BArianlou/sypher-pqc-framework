@@ -11,10 +11,9 @@
 ## 1. Architectural Intent
 Sypher is a modular cryptographic framework designed to secure data transport against future quantum-decryption threats ("Store Now, Decrypt Later"). It implements a **Hybrid Protocol**, combining NIST-standardized Post-Quantum algorithms (Kyber) for key encapsulation with battle-tested symmetric encryption (AES-256-GCM) for payload transport.
 
-### Language & System Integration
-* **Core Reference Engine:** Python 3.x (NumPy, SciPy, Cryptography) — *contained in this public repository*.
-* **Enterprise Service Bindings:** Production deployment wrappers leverage Java (Spring Boot / JNI) and Scala (Spark Streaming) microservices for secure data pipeline transit and cloud orchestration.
-
+#### Language & System Integration
+* **Core Reference Engine:** Python 3.x (NumPy, SciPy, Cryptography, liboqs bindings) — *contained in this public repository.*
+* **Native Memory & Enterprise Service Bindings:** Zero-allocation, cache-aligned C++ (C++17/20) memory safety bridges with Java (Spring Boot / JNI) microservices for deterministic runtime guardrails, native performance, and cloud orchestration.
 ## 2. Protocol Sequence (The Handshake)
 The system utilizes a "Key Encapsulation Mechanism" (KEM) to establish a shared secret over an insecure channel, bypassing the vulnerabilities of RSA/ECC.
 
