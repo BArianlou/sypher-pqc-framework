@@ -1,65 +1,31 @@
-# ===============================================================================
-# MODULE MANIFEST: SYPHER DETERMINISTIC DEPENDENCY GRAPH (REQUIREMENTS)
-# ===============================================================================
-# System Purpose:
-#     Serves as the foundational mathematical and cryptographic registry for the
-#     SYPHER engine. Defines the strict library envelopes required to instantiate
-#     the adversarial Deep Q-Network, the post-quantum simulation primitives,
-#     and the continuous Markov Decision Process (MDP) threat environment.
-#
-# State Boundaries:
-#     - Strictly manages the Python execution environment and ABI boundaries.
-#     - Prevents upstream package mutations and semantic version drift from
-#       corrupting tensor geometries, gradient stability, or Galois field
-#       authentication tags during CI/CD deployment phases.
-#
-# Mathematical/Physical Invariants:
-#     1. SESSION_CONTEXT_FIDELITY:
-#        Enforces reproducible computational baselines across local sandboxes,
-#        ephemeral CI/CD runners, and containerized Kubernetes clusters.
-#     2. Compatible Release Bounding (~= / <):
-#        Enforces verified API feature floors while establishing upper-bound
-#        ceilings against breaking major runtime mutations.
-#
-# Design Rationale:
-#     Unpinned dependencies in deep reinforcement learning and cryptographic
-#     pipelines introduce catastrophic non-determinism, C-ABI breakages, and
-#     vulnerability exposure. This manifest acts as a structural lock, ensuring
-#     that the neural backbones and AEAD ciphers compile identically across all
-#     deployment targets.
-# ===============================================================================
+# SYPHER: Post-Quantum Cryptographic Intelligence & Routing Engine
 
-# [STRUCTURAL CALLOUT] Core Tensor Geometry & Vectorization
-# Architectural Mandate: Provides foundational C-optimized ndarrays required
-# for vectorized Bellman target updates and dimension-safe state reshaping in
-# RLAgent. Clamped below 2.0.0 to prevent C-API breaking changes with compiled extensions.
-numpy>=1.24.0,<2.0.0
+[![Sypher Security Integrity Audit](https://github.com/barianlou/sypher/actions/workflows/sypher_security_audit.yml/badge.svg)](https://github.com/barianlou/sypher/actions)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![Java](https://img.shields.io/badge/Java-17%20LTS-orange.svg)
+![C++](https://img.shields.io/badge/C%2B%2B-20-darkblue.svg)
 
-# [STRUCTURAL CALLOUT] Adversarial Neural Topology & Gradient Control
-# Instantiates the computational graph for the SypherAI backbone. Enforces
-# numerical stability for Huber loss execution (Kinetic Gradient Control)
-# during simulated network flash-floods and DDoS telemetry shocks.
-tensorflow>=2.15.0,<2.17.0
+**Architect:** Bijan Arianlou | **Role:** Principal Systems Architect  
+**Status:** Reference Implementation (v1.1) | **Core Logic:** Hybrid Key Encapsulation (KEM) + Adversarial DQN Routing
 
-# [STRUCTURAL CALLOUT] Adversarial MDP Simulation Boundaries
-# Replaces deprecated gym APIs. Gymnasium 0.29.1+ provides spaces.Box and
-# spaces.Discrete specifications that enforce deterministic observation and
-# action boundaries within SypherSecurityEnv.
-gymnasium>=0.29.1,<1.1.0
+---
 
-# [STRUCTURAL CALLOUT] Sovereign Cryptographic Primitives
-# Foundational cryptographic engine. Clamped to versions containing hardened
-# hazmat primitives for X25519 (Elliptic Curve KEM), HKDF (Deterministic
-# Expansion), and AES-256-GCM (Galois/Counter Mode AEAD).
-cryptography>=41.0.0,<44.0.0
+### 1. Architectural Intent
+Sypher is a modular, autonomic cryptographic execution engine engineered to defend enterprise data transport against harvest-now, decrypt-later quantum threats. Moving beyond static cipher configurations, Sypher integrates an adaptive **Deep Q-Network (DQN)** policy engine that dynamically optimizes cryptographic parameters and key-rotation intervals under non-stationary adversarial conditions (e.g., volumetric floods, latency degradation, targeted key extraction).
 
-# [STRUCTURAL CALLOUT] Telemetry Alignment & State-Space Fusion
-# Supports local data transformation and tabular feature alignment. Guarantees
-# deterministic handling of high-frequency telemetry via the Anti-Drift Truncation Lock.
-pandas>=2.1.0,<3.0.0
+The framework implements a Hybrid Protocol architecture, evaluating NIST-standardized Post-Quantum algorithms (ML-KEM / Kyber-768 profile) alongside hardened classical primitives (X25519) for key encapsulation, paired with authenticated symmetric stream encryption (AES-256-GCM). Defensive routing decisions continuously maximize the objective function defined by the `Hybrid_PQC_Evaluation` mathematical invariant:
 
-# [STRUCTURAL CALLOUT] Automated Verification Gate
-# Foundational harness for running deterministic pre-flight checks and unit
-# assertions in CI/CD pipelines and containerized staging pods.
-pytest>=7.4.0,<9.0.0
-flake8>=6.1.0,<8.0.0
+$$\text{Viability\_Score} = (w_1 \cdot \text{Security\_Level}) - (w_2 \cdot \text{Latency\_Overhead}) - (w_3 \cdot \text{Size\_Overhead})$$
+
+---
+
+### 2. Polyglot Architecture (The Triune Stack)
+* **Core Autonomic Engine (Python 3.10):** TensorFlow/Keras, Gymnasium, and Cryptography hazmat primitives. Executes the adversarial Markov Decision Process (MDP), experience replay batch vectorization, and Huber-loss regularized gradient backpropagation.
+* **Enterprise Integration Gateway (Java 17 / Spring Boot):** Asynchronous, non-blocking REST/Kafka ingress microservices. Enforces a 28-byte edge envelope validation gate (`12-byte Nonce + 16-byte GHASH Tag`) and delegates execution via `CompletableFuture` to preserve JVM thread-pool capacity.
+* **Native Hardware Guard (C++20):** Lock-free, zero-allocation memory safety controller. Pinpoints cache lines to 64-byte boundaries (`alignas(64)`) to eliminate false sharing, enforcing the `Structural_Veto_Gate` and `Bayesian_Dampener` bounds directly in CPU cache with O(1) time complexity.
+
+---
+
+### 3. Protocol Sequence (The Handshake)
+The system executes a ciphertext-bound Key Encapsulation Mechanism (KEM) to derive ephemeral 256-bit symmetric shared secrets over untrusted channels:
