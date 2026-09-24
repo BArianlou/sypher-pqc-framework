@@ -15,43 +15,46 @@
 
 ## 1. Architectural Intent
 
-Sypher is a modular, reinforcement-driven cryptographic execution framework engineered to secure data transport against harvest-now, decrypt-later quantum threats. Moving beyond static cipher baselines, Sypher incorporates an autonomic **Deep Q-Network (DQN)** that dynamically optimizes cryptographic parameters and scheme selection under non-stationary adversarial conditions, including volumetric DDoS floods, quantum-harvesting telemetry anomalies, and high-variance network volatility.
+Sypher is a modular, reinforcement-driven cryptographic framework engineered to secure data transport against future quantum-decryption threats (“Store Now, Decrypt Later”). Unlike static cryptographic libraries, Sypher incorporates an autonomic **Deep Q-Network (DQN)** that continuously optimizes cryptographic routing under adversarial conditions such as DDoS floods, quantum-harvesting telemetry, and high-variance network volatility.
 
-The system enforces a hybrid cryptographic protocol:
-- **ML-KEM / Kyber-768** profile for lattice-based post-quantum key encapsulation
-- **AES-256-GCM** for authenticated symmetric payload transport with Associated Authenticated Data (AAD)
-- **HKDF-SHA256** for deterministic, transcript-bound secret expansion
+The system implements a hybrid protocol combining:
 
-Defensive routing decisions continuously maximize the objective function defined by the **Hybrid_PQC_Evaluation** invariant:
+- **ML-KEM / Kyber-768** profile for post-quantum key encapsulation  
+- **AES-256-GCM** for authenticated payload transport  
+- **HKDF-SHA256** for deterministic secret expansion  
 
-$$\text{Viability\_Score} = (w_1 \cdot \text{Security\_Level}) - (w_2 \cdot \text{Latency\_Overhead}) - (w_3 \cdot \text{Size\_Overhead})$$
+All governed by the **Hybrid_PQC_Evaluation** invariant.
 
 ---
 
 ## 2. Language & System Integration (Triune Stack)
 
 ### Python 3.10 — Autonomic ML Core
-- **TensorFlow / Keras:** Deep Q-Network policy backbone stabilized via Huber-loss gradient damping ($\delta = 1.0$).
-- **Gymnasium:** Continuous Markov Decision Process (MDP) adversarial threat simulation (`spaces.Box`, `spaces.Discrete`).
-- **Cryptography Hazmat:** Montgomery Curve25519 (X25519), HKDF-SHA256, and AES-256-GCM primitives.
-- Enforces Bellman value iteration, vectorized experience replay, and mathematical state-space clamping.
+
+- TensorFlow (DQN policy backbone)  
+- Gymnasium (MDP simulation)  
+- Cryptography (AES-GCM, HKDF, X25519/Kyber primitives)  
+- Implements adversarial training, Bellman updates, and state-space clamping.
 
 ### Java 17 — Enterprise Integration Gateway
-- **Spring Boot:** High-throughput, non-blocking asynchronous REST/Kafka ingestion layer.
-- **Reactive Concurrency:** `CompletableFuture` pipelines isolate servlet worker threads from downstream inference loops.
-- **Perimeter Gate:** Enforces the strict 28-byte minimum envelope invariant (`12B Nonce + 16B GHASH Tag`) and session AAD integrity.
-- **Zero-GC Object Pooling:** `AtomicReferenceArray` of pre-allocated, mutable flyweight vectors to prevent Eden-space churn.
+
+- Spring Boot asynchronous REST/Kafka ingestion  
+- Non-blocking `CompletableFuture` pipelines  
+- High-throughput ingestion of encrypted state vectors  
+- Enforces geometric payload boundaries (28-byte minimum envelope) and session-context fidelity.
 
 ### C++20 — Native Hardware Guard
-- **Zero-Allocation Cache Residency:** Statically sized 1024-slot circular buffer aligned to 64-byte boundaries (`alignas(64)`) to eliminate false sharing across CPU cores.
-- **Microarchitectural Execution:** Lock-free atomic operations (`std::memory_order_relaxed` / `release`) enforce the **Structural_Veto_Gate** and **Bayesian_Dampener** directly in L1/L2 cache.
-- **Deterministic O(1) Velocity:** Nanosecond-level boundary checks drop anomalous actions and non-finite tensor outputs ($\text{NaN} / \pm\infty$) before network dispatch.
+
+- Zero-allocation, cache-aligned (64-byte) atomic ring buffers  
+- Enforces **Structural_Veto_Gate** and **Bayesian_Dampener** at L1/L2 cache speed  
+- Deterministic O(1) memory residency  
+- Hardware-level veto against variance spikes and non-finite tensor outputs.
 
 ---
 
 ## 3. Protocol Sequence (The Handshake)
 
-Sypher establishes secure channels using an authenticated Key Encapsulation Mechanism (KEM) rather than static RSA/ECC key exchanges. The DQN policy engine continuously samples threat telemetry to rotate parameters and select encapsulation postures.
+Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC. The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
 
 ```mermaid
 sequenceDiagram
@@ -83,3 +86,40 @@ sequenceDiagram
     end
 
     Gateway-->>-Client: 200 OK (Cryptographic Ack)
+
+[ CLIENT / INGRESS ]
+          |
+          |  POST /api/v1/sypher/secure-inference
+          |  Headers: [ X-Session-ID: <AAD_UUID> ]
+          |  Payload: [ 12B Nonce || P_e (32B) || Ciphertext || 16B Tag ]
+          v
++-------------------------------------------------------------------------------+
+| SYPHER TRIUNE ARCHITECTURE                                                    |
+|                                                                               |
+|  [ LAYER 1: JAVA 17 ENTERPRISE GATEWAY ]                                      |
+|    |-- Spring Boot Non-Blocking Async Ingestion (CompletableFuture)           |
+|    |-- Perimeter Check: Validate Payload >= 28 Bytes                          |
+|    `-- Header Check: Validate Session AAD Context                             |
+|          |                                                                    |
+|          | (Telemetry: Action ID, Q-Value, State Variance)                    |
+|          v                                                                    |
+|  [ LAYER 2: C++20 NATIVE HARDWARE GUARD ]                                     |
+|    |-- Microarchitectural Lock-Free Core (alignas(64) Ring Buffer)            |
+|    |-- Check: isfinite(action_value)                                          |
+|    `-- Bayesian Dampener: Check state_variance <= max_variance_bound_         |
+|          |                                                                    |
+|          +---> [FAIL] --> STRUCTURAL VETO (transition_prob = 0.0)             |
+|          |                                                                    |
+|          +---> [PASS] --> Commit Slot via std::memory_order_release           |
+|          |                                                                    |
+|          v                                                                    |
+|  [ LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE ]                                   |
+|    |-- Decapsulate Shared Secret K = s_r * P_e (Kyber-768 / X25519)           |
+|    |-- Derive Symmetric Key = HKDF-SHA256(K || P_e)                          |
+|    |-- Verify Galois GHASH Tag (Session AAD Binding)                          |
+|    `-- Adversarial DQN Policy Step (Huber Loss Gradient Clamping)             |
++-------------------------------------------------------------------------------+
+          |
+          |  200 OK (Execution Validated)
+          v
+ [ CLIENT / INGRESS ]
