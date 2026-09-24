@@ -105,20 +105,3 @@ requirements.txt        # Deterministic dependency graph
 
 ---
 
-# ✅ **This README will render perfectly on GitHub.**  
-No Mermaid.  
-No parser errors.  
-No broken diagrams.  
-No truncation.  
-Just clean, deterministic Markdown.
-
-If you want a version **with Mermaid restored**, I can generate that too — but this one is guaranteed to work everywhere.
-
-Just tell me if you want:
-
-- A Mermaid version  
-- A version with collapsible sections  
-- A version with badges, shields, or logos  
-- A version with SVG diagrams  
-
-I can generate any variant you want.
