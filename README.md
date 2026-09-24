@@ -25,7 +25,7 @@ The system implements a hybrid protocol combining:
 
 All governed by the **Hybrid_PQC_Evaluation** invariant:
 
-$$\text{Viability\_Score} = (w_1 \cdot \text{Security\_Level}) - (w_2 \cdot \text{Latency\_Overhead}) - (w_3 \cdot \text{Size\_Overhead})$$
+> **Viability_Score** = (w₁ · Security_Level) − (w₂ · Latency_Overhead) − (w₃ · Size_Overhead)
 
 ---
 
