@@ -1,3 +1,4 @@
+cat << 'EOF' > README.md
 # SYPHER: Post-Quantum Cryptographic Intelligence & Routing Engine
 
 [![Sypher Security Integrity Audit](https://github.com/barianlou/sypher/actions/workflows/sypher_security_audit.yml/badge.svg)](https://github.com/barianlou/sypher/actions)
@@ -9,7 +10,7 @@
 **Architect:** Bijan Arianlou  
 **Role:** Principal Systems Architect  
 **Status:** Reference Implementation (v1.1)  
-**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing  
+**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing
 
 ---
 
@@ -23,25 +24,30 @@ The system implements a hybrid protocol combining:
 - **AES-256-GCM** for authenticated payload transport  
 - **HKDF-SHA256** for deterministic secret expansion  
 
-All governed by the **Hybrid_PQC_Evaluation** invariant.
+All governed by the **Hybrid_PQC_Evaluation** invariant:
+
+$$\text{Viability\_Score} = (w_1 \cdot \text{Security\_Level}) - (w_2 \cdot \text{Latency\_Overhead}) - (w_3 \cdot \text{Size\_Overhead})$$
 
 ---
 
 ## 2. Language & System Integration (Triune Stack)
 
 ### Python 3.10 — Autonomic ML Core
+
 - TensorFlow (DQN policy backbone)  
 - Gymnasium (MDP simulation)  
 - Cryptography (AES-GCM, HKDF, X25519/Kyber primitives)  
 - Implements adversarial training, Bellman updates, and state-space clamping.
 
 ### Java 17 — Enterprise Integration Gateway
+
 - Spring Boot asynchronous REST/Kafka ingestion  
 - Non-blocking `CompletableFuture` pipelines  
 - High-throughput ingestion of encrypted state vectors  
 - Enforces geometric payload boundaries (28-byte minimum envelope) and session-context fidelity.
 
 ### C++20 — Native Hardware Guard
+
 - Zero-allocation, cache-aligned (64-byte) atomic ring buffers  
 - Enforces **Structural_Veto_Gate** and **Bayesian_Dampener** at L1/L2 cache speed  
 - Deterministic O(1) memory residency  
@@ -51,54 +57,4 @@ All governed by the **Hybrid_PQC_Evaluation** invariant.
 
 ## 3. Protocol Sequence (The Handshake)
 
-Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC.  
-The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
-
-**Flow:**
-1. Ephemeral PQC / X25519 keypair generation  
-2. Kyber-768 baseline encapsulation  
-3. HKDF-SHA256 expansion with transcript binding  
-4. AES-256-GCM authenticated encryption (28-byte minimum envelope)  
-5. RL-driven routing and scheme rotation  
-
----
-
-## 4. Triune Architecture Diagram (ASCII — Guaranteed to Render)
-
-```text
-[ CLIENT / INGRESS ]
-          |
-          |  POST /api/v1/sypher/secure-inference
-          |  Headers: [ X-Session-ID: <AAD_UUID> ]
-          |  Payload: [ 12B Nonce || P_e (32B) || Ciphertext || 16B Tag ]
-          v
-+-------------------------------------------------------------------------------+
-| SYPHER TRIUNE ARCHITECTURE                                                    |
-|                                                                               |
-|  [ LAYER 1: JAVA 17 ENTERPRISE GATEWAY ]                                      |
-|    |-- Spring Boot Non-Blocking Async Ingestion (CompletableFuture)           |
-|    |-- Perimeter Check: Validate Payload >= 28 Bytes                          |
-|    `-- Header Check: Validate Session AAD Context                             |
-|          |                                                                    |
-|          | (Telemetry: Action ID, Q-Value, State Variance)                    |
-|          v                                                                    |
-|  [ LAYER 2: C++20 NATIVE HARDWARE GUARD ]                                     |
-|    |-- Microarchitectural Lock-Free Core (alignas(64) Ring Buffer)            |
-|    |-- Check: isfinite(action_value)                                          |
-|    `-- Bayesian Dampener: Check state_variance <= max_variance_bound_         |
-|          |                                                                    |
-|          +---> [FAIL] --> STRUCTURAL VETO (transition_prob = 0.0)             |
-|          |                                                                    |
-|          +---> [PASS] --> Commit Slot via std::memory_order_release           |
-|          |                                                                    |
-|          v                                                                    |
-|  [ LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE ]                                   |
-|    |-- Decapsulate Shared Secret K = s_r * P_e (Kyber-768 / X25519)           |
-|    |-- Derive Symmetric Key = HKDF-SHA256(K || P_e)                           |
-|    |-- Verify Galois GHASH Tag (Session AAD Binding)                          |
-|    `-- Adversarial DQN Policy Step (Huber Loss Gradient Clamping)             |
-+-------------------------------------------------------------------------------+
-          |
-          |  200 OK (Execution Validated)
-          v
-[ CLIENT / INGRESS ]
+Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC. The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
