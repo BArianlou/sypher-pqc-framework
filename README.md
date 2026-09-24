@@ -1,5 +1,11 @@
 # SYPHER: Post-Quantum Cryptographic Intelligence & Routing Engine
 
+[![Sypher Security Integrity Audit](https://github.com/barianlou/sypher/actions/workflows/sypher_security_audit.yml/badge.svg)](https://github.com/barianlou/sypher/actions)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![Java](https://img.shields.io/badge/Java-17%20LTS-orange.svg)
+![C++](https://img.shields.io/badge/C%2B%2B-20-darkblue.svg)
+
 **Architect:** Bijan Arianlou  
 **Role:** Principal Systems Architect  
 **Status:** Reference Implementation (v1.1)  
@@ -96,12 +102,3 @@ The RL agent continuously evaluates threat telemetry and latency to select optim
           |  200 OK (Execution Validated)
           v
 [ CLIENT / INGRESS ]
-/ml-engine              # Python DQN + PQC cryptographic core
-/java-gateway           # Spring Boot REST/Kafka ingestion layer
-/native_cpp             # C++20 hardware guard (zero-allocation, lock-free)
-/tests                  # Deterministic SCIENTIFIC_VALIDATION suite
-Dockerfile              # Polyglot container architecture
-requirements.txt        # Deterministic dependency graph
-
----
-
