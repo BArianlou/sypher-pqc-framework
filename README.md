@@ -1,60 +1,65 @@
-cat << 'EOF' > README.md
-# SYPHER: Post-Quantum Cryptographic Intelligence & Routing Engine
+# ===============================================================================
+# MODULE MANIFEST: SYPHER DETERMINISTIC DEPENDENCY GRAPH (REQUIREMENTS)
+# ===============================================================================
+# System Purpose:
+#     Serves as the foundational mathematical and cryptographic registry for the
+#     SYPHER engine. Defines the strict library envelopes required to instantiate
+#     the adversarial Deep Q-Network, the post-quantum simulation primitives,
+#     and the continuous Markov Decision Process (MDP) threat environment.
+#
+# State Boundaries:
+#     - Strictly manages the Python execution environment and ABI boundaries.
+#     - Prevents upstream package mutations and semantic version drift from
+#       corrupting tensor geometries, gradient stability, or Galois field
+#       authentication tags during CI/CD deployment phases.
+#
+# Mathematical/Physical Invariants:
+#     1. SESSION_CONTEXT_FIDELITY:
+#        Enforces reproducible computational baselines across local sandboxes,
+#        ephemeral CI/CD runners, and containerized Kubernetes clusters.
+#     2. Compatible Release Bounding (~= / <):
+#        Enforces verified API feature floors while establishing upper-bound
+#        ceilings against breaking major runtime mutations.
+#
+# Design Rationale:
+#     Unpinned dependencies in deep reinforcement learning and cryptographic
+#     pipelines introduce catastrophic non-determinism, C-ABI breakages, and
+#     vulnerability exposure. This manifest acts as a structural lock, ensuring
+#     that the neural backbones and AEAD ciphers compile identically across all
+#     deployment targets.
+# ===============================================================================
 
-[![Sypher Security Integrity Audit](https://github.com/barianlou/sypher/actions/workflows/sypher_security_audit.yml/badge.svg)](https://github.com/barianlou/sypher/actions)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
-![Java](https://img.shields.io/badge/Java-17%20LTS-orange.svg)
-![C++](https://img.shields.io/badge/C%2B%2B-20-darkblue.svg)
+# [STRUCTURAL CALLOUT] Core Tensor Geometry & Vectorization
+# Architectural Mandate: Provides foundational C-optimized ndarrays required
+# for vectorized Bellman target updates and dimension-safe state reshaping in
+# RLAgent. Clamped below 2.0.0 to prevent C-API breaking changes with compiled extensions.
+numpy>=1.24.0,<2.0.0
 
-**Architect:** Bijan Arianlou  
-**Role:** Principal Systems Architect  
-**Status:** Reference Implementation (v1.1)  
-**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing
+# [STRUCTURAL CALLOUT] Adversarial Neural Topology & Gradient Control
+# Instantiates the computational graph for the SypherAI backbone. Enforces
+# numerical stability for Huber loss execution (Kinetic Gradient Control)
+# during simulated network flash-floods and DDoS telemetry shocks.
+tensorflow>=2.15.0,<2.17.0
 
----
+# [STRUCTURAL CALLOUT] Adversarial MDP Simulation Boundaries
+# Replaces deprecated gym APIs. Gymnasium 0.29.1+ provides spaces.Box and
+# spaces.Discrete specifications that enforce deterministic observation and
+# action boundaries within SypherSecurityEnv.
+gymnasium>=0.29.1,<1.1.0
 
-## 1. Architectural Intent
+# [STRUCTURAL CALLOUT] Sovereign Cryptographic Primitives
+# Foundational cryptographic engine. Clamped to versions containing hardened
+# hazmat primitives for X25519 (Elliptic Curve KEM), HKDF (Deterministic
+# Expansion), and AES-256-GCM (Galois/Counter Mode AEAD).
+cryptography>=41.0.0,<44.0.0
 
-Sypher is a modular, reinforcement-driven cryptographic framework engineered to secure data transport against future quantum-decryption threats (“Store Now, Decrypt Later”). Unlike static cryptographic libraries, Sypher incorporates an autonomic **Deep Q-Network (DQN)** that continuously optimizes cryptographic routing under adversarial conditions such as DDoS floods, quantum-harvesting telemetry, and high-variance network volatility.
+# [STRUCTURAL CALLOUT] Telemetry Alignment & State-Space Fusion
+# Supports local data transformation and tabular feature alignment. Guarantees
+# deterministic handling of high-frequency telemetry via the Anti-Drift Truncation Lock.
+pandas>=2.1.0,<3.0.0
 
-The system implements a hybrid protocol combining:
-
-- **ML-KEM / Kyber-768** profile for post-quantum key encapsulation  
-- **AES-256-GCM** for authenticated payload transport  
-- **HKDF-SHA256** for deterministic secret expansion  
-
-All governed by the **Hybrid_PQC_Evaluation** invariant:
-
-$$\text{Viability\_Score} = (w_1 \cdot \text{Security\_Level}) - (w_2 \cdot \text{Latency\_Overhead}) - (w_3 \cdot \text{Size\_Overhead})$$
-
----
-
-## 2. Language & System Integration (Triune Stack)
-
-### Python 3.10 — Autonomic ML Core
-
-- TensorFlow (DQN policy backbone)  
-- Gymnasium (MDP simulation)  
-- Cryptography (AES-GCM, HKDF, X25519/Kyber primitives)  
-- Implements adversarial training, Bellman updates, and state-space clamping.
-
-### Java 17 — Enterprise Integration Gateway
-
-- Spring Boot asynchronous REST/Kafka ingestion  
-- Non-blocking `CompletableFuture` pipelines  
-- High-throughput ingestion of encrypted state vectors  
-- Enforces geometric payload boundaries (28-byte minimum envelope) and session-context fidelity.
-
-### C++20 — Native Hardware Guard
-
-- Zero-allocation, cache-aligned (64-byte) atomic ring buffers  
-- Enforces **Structural_Veto_Gate** and **Bayesian_Dampener** at L1/L2 cache speed  
-- Deterministic O(1) memory residency  
-- Hardware-level veto against variance spikes and non-finite tensor outputs.
-
----
-
-## 3. Protocol Sequence (The Handshake)
-
-Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC. The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
+# [STRUCTURAL CALLOUT] Automated Verification Gate
+# Foundational harness for running deterministic pre-flight checks and unit
+# assertions in CI/CD pipelines and containerized staging pods.
+pytest>=7.4.0,<9.0.0
+flake8>=6.1.0,<8.0.0
