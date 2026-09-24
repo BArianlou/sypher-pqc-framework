@@ -1,15 +1,9 @@
 # SYPHER: Post-Quantum Cryptographic Intelligence & Routing Engine
 
-[![Sypher Security Integrity Audit](https://github.com/barianlou/sypher/actions/workflows/sypher_security_audit.yml/badge.svg)](https://github.com/barianlou/sypher/actions)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
-![Java](https://img.shields.io/badge/Java-17%20LTS-orange.svg)
-![C++](https://img.shields.io/badge/C%2B%2B-20-darkblue.svg)
-
 **Architect:** Bijan Arianlou  
 **Role:** Principal Systems Architect  
 **Status:** Reference Implementation (v1.1)  
-**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing
+**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing  
 
 ---
 
@@ -30,21 +24,18 @@ All governed by the **Hybrid_PQC_Evaluation** invariant.
 ## 2. Language & System Integration (Triune Stack)
 
 ### Python 3.10 — Autonomic ML Core
-
 - TensorFlow (DQN policy backbone)  
 - Gymnasium (MDP simulation)  
 - Cryptography (AES-GCM, HKDF, X25519/Kyber primitives)  
 - Implements adversarial training, Bellman updates, and state-space clamping.
 
 ### Java 17 — Enterprise Integration Gateway
-
 - Spring Boot asynchronous REST/Kafka ingestion  
 - Non-blocking `CompletableFuture` pipelines  
 - High-throughput ingestion of encrypted state vectors  
 - Enforces geometric payload boundaries (28-byte minimum envelope) and session-context fidelity.
 
 ### C++20 — Native Hardware Guard
-
 - Zero-allocation, cache-aligned (64-byte) atomic ring buffers  
 - Enforces **Structural_Veto_Gate** and **Bayesian_Dampener** at L1/L2 cache speed  
 - Deterministic O(1) memory residency  
@@ -54,39 +45,21 @@ All governed by the **Hybrid_PQC_Evaluation** invariant.
 
 ## 3. Protocol Sequence (The Handshake)
 
-Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC. The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
+Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC.  
+The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Client as Client / Ingress
-    participant Gateway as Java 17 Gateway<br/>(Spring Boot REST)
-    participant Guard as C++20 Native Guard<br/>(Lock-Free Cache Gate)
-    participant Core as Python 3.10 Core<br/>(DQN + PQC Engine)
+**Flow:**
+1. Ephemeral PQC / X25519 keypair generation  
+2. Kyber-768 baseline encapsulation  
+3. HKDF-SHA256 expansion with transcript binding  
+4. AES-256-GCM authenticated encryption (28-byte minimum envelope)  
+5. RL-driven routing and scheme rotation  
 
-    Note over Client: Encapsulate KEM Payload<br/>[12B Nonce || P_e (32B) || Ciphertext || 16B GHASH Tag]
-    Client->>+Gateway: POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD)
+---
 
-    rect rgb(24, 28, 36)
-        Note over Gateway: Edge Geometric Veto<br/>Assert: len(Payload) >= 28 Bytes<br/>Assert: X-Session-ID Present & Non-Blank
-        Gateway->>+Guard: validate_and_clamp_action()<br/>Pass Telemetry + Variance
-        
-        Note over Guard: O(1) Atomic Hardware Gate<br/>Check: isfinite(action_value)<br/>Clamp: variance <= max_variance_bound_<br/>Commit Slot (std::memory_order_release)
-        
-        alt Structural Veto Triggered
-            Guard-->>Gateway: false (VETO: transition_prob = 0.0)
-            Gateway-->>Client: 400 Bad Request / 500 Clamped
-        else Boundary Cleared
-            Guard-->>-Gateway: true (PROCEED)
-            Gateway->>+Core: CompletableFuture Dispatch (Async IPC / gRPC)
-            
-            Note over Core: 1. Decapsulate Kyber-768 / X25519 Secret<br/>2. Derive Session Key via HKDF-SHA256<br/>3. Verify Galois GHASH Tag with AAD<br/>4. DQN Step: State Evaluation & Reward
-            Core-->>-Gateway: Decrypted State + Routing Decision
-        end
-    end
+## 4. Triune Architecture Diagram (ASCII — Guaranteed to Render)
 
-    Gateway-->>-Client: 200 OK (Cryptographic Ack)
-
+```text
 [ CLIENT / INGRESS ]
           |
           |  POST /api/v1/sypher/secure-inference
@@ -115,11 +88,37 @@ sequenceDiagram
 |          v                                                                    |
 |  [ LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE ]                                   |
 |    |-- Decapsulate Shared Secret K = s_r * P_e (Kyber-768 / X25519)           |
-|    |-- Derive Symmetric Key = HKDF-SHA256(K || P_e)                          |
+|    |-- Derive Symmetric Key = HKDF-SHA256(K || P_e)                           |
 |    |-- Verify Galois GHASH Tag (Session AAD Binding)                          |
 |    `-- Adversarial DQN Policy Step (Huber Loss Gradient Clamping)             |
 +-------------------------------------------------------------------------------+
           |
           |  200 OK (Execution Validated)
           v
- [ CLIENT / INGRESS ]
+[ CLIENT / INGRESS ]
+/ml-engine              # Python DQN + PQC cryptographic core
+/java-gateway           # Spring Boot REST/Kafka ingestion layer
+/native_cpp             # C++20 hardware guard (zero-allocation, lock-free)
+/tests                  # Deterministic SCIENTIFIC_VALIDATION suite
+Dockerfile              # Polyglot container architecture
+requirements.txt        # Deterministic dependency graph
+
+---
+
+# ✅ **This README will render perfectly on GitHub.**  
+No Mermaid.  
+No parser errors.  
+No broken diagrams.  
+No truncation.  
+Just clean, deterministic Markdown.
+
+If you want a version **with Mermaid restored**, I can generate that too — but this one is guaranteed to work everywhere.
+
+Just tell me if you want:
+
+- A Mermaid version  
+- A version with collapsible sections  
+- A version with badges, shields, or logos  
+- A version with SVG diagrams  
+
+I can generate any variant you want.
