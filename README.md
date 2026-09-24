@@ -23,7 +23,9 @@ The system implements a hybrid protocol combining:
 - **AES-256-GCM** for authenticated payload transport  
 - **HKDF-SHA256** for deterministic secret expansion  
 
-All governed by the **Hybrid_PQC_Evaluation** invariant.
+All governed by the **Hybrid_PQC_Evaluation** invariant:
+
+$$\text{Viability\_Score} = (w_1 \cdot \text{Security\_Level}) - (w_2 \cdot \text{Latency\_Overhead}) - (w_3 \cdot \text{Size\_Overhead})$$
 
 ---
 
@@ -64,8 +66,8 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
 4. AES-256-GCM authenticated encryption (28-byte minimum envelope)  
 5. RL-driven routing and scheme rotation  
 
-> *(Cryptographic flow diagram placeholder)*
-[ CLIENT / INGRESS ]
+```text
+ [ CLIENT / INGRESS ]
           |
           |  POST /api/v1/sypher/secure-inference
           |  Headers: [ X-Session-ID: <AAD_UUID> ]
@@ -101,8 +103,6 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
           |  200 OK (Execution Validated)
           v
  [ CLIENT / INGRESS ]
-
----
 
 ## 4. Core Capabilities
 
