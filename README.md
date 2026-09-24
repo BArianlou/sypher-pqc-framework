@@ -65,6 +65,42 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
 5. RL-driven routing and scheme rotation  
 
 > *(Cryptographic flow diagram placeholder)*
+[ CLIENT / INGRESS ]
+          |
+          |  POST /api/v1/sypher/secure-inference
+          |  Headers: [ X-Session-ID: <AAD_UUID> ]
+          |  Payload: [ 12B Nonce || P_e (32B) || Ciphertext || 16B Tag ]
+          v
++-------------------------------------------------------------------------------+
+| SYPHER TRIUNE ARCHITECTURE                                                    |
+|                                                                               |
+|  [ LAYER 1: JAVA 17 ENTERPRISE GATEWAY ]                                      |
+|    |-- Spring Boot Non-Blocking Async Ingestion (CompletableFuture)           |
+|    |-- Perimeter Check: Validate Payload >= 28 Bytes                          |
+|    `-- Header Check: Validate Session AAD Context                             |
+|          |                                                                    |
+|          | (Telemetry: Action ID, Q-Value, State Variance)                    |
+|          v                                                                    |
+|  [ LAYER 2: C++20 NATIVE HARDWARE GUARD ]                                     |
+|    |-- Microarchitectural Lock-Free Core (alignas(64) Ring Buffer)            |
+|    |-- Check: isfinite(action_value)                                          |
+|    `-- Bayesian Dampener: Check state_variance <= max_variance_bound_         |
+|          |                                                                    |
+|          +---> [FAIL] --> STRUCTURAL VETO (transition_prob = 0.0)             |
+|          |                                                                    |
+|          +---> [PASS] --> Commit Slot via std::memory_order_release           |
+|          |                                                                    |
+|          v                                                                    |
+|  [ LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE ]                                   |
+|    |-- Decapsulate Shared Secret K = s_r * P_e (Kyber-768 / X25519)           |
+|    |-- Derive Symmetric Key = HKDF-SHA256(K || P_e)                          |
+|    |-- Verify Galois GHASH Tag (Session AAD Binding)                          |
+|    `-- Adversarial DQN Policy Step (Huber Loss Gradient Clamping)             |
++-------------------------------------------------------------------------------+
+          |
+          |  200 OK (Execution Validated)
+          v
+ [ CLIENT / INGRESS ]
 
 ---
 
