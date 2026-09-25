@@ -9,10 +9,6 @@
 **Architect:** Bijan Arianlou  
 **Role:** Principal Systems Architect  
 **Status:** Reference Implementation (v1.1)  
-**Core Logic:** Hybrid Key Encapsulation (KEM)<img width="300" height="242" alt="image" src="https://github.com/user-attachments/assets/ffdc80c1-564b-4a4a-942a-3689633f5ea4" />
-<img width="300" height="242" alt="image" src="https://github.com/user-attachments/assets/980bb4bb-47f1-4750-8564-d29e851a7d27" />
- + Deep Q-Network (DQN) Routing
-
 ---
 
 ## 1. Architectural Intent
@@ -142,9 +138,12 @@ For enterprise integration, native C++ bindings, or deployment documentation:
 ---
 
 ## 6. Repository Structure (Triune Layout)
+
+```text
 /ml-engine              # Python DQN + PQC cryptographic core
 /java-gateway           # Spring Boot REST/Kafka ingestion layer
 /native_cpp             # C++20 hardware guard (zero-allocation, lock-free)
 /tests                  # Deterministic SCIENTIFIC_VALIDATION suite
 Dockerfile              # Polyglot container architecture
 requirements.txt        # Deterministic dependency graph
+```
