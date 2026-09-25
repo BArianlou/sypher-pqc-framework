@@ -9,6 +9,8 @@
 **Architect:** Bijan Arianlou  
 **Role:** Principal Systems Architect  
 **Status:** Reference Implementation (v1.1)  
+**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing
+
 ---
 
 ## 1. Architectural Intent
@@ -62,7 +64,8 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
 2. Kyber-768 baseline encapsulation  
 3. HKDF-SHA256 expansion with transcript binding  
 4. AES-256-GCM authenticated encryption (28-byte minimum envelope)  
-5. RL-driven routing and scheme rotation
+5. RL-driven routing and scheme rotation  
+
 ```mermaid
 graph TD
     Client["<b>CLIENT / INGRESS</b><br/>POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD UUID)<br/>Payload: 12B Nonce || P<sub>e</sub> (32B) || Ciphertext || 16B Tag"]
@@ -115,6 +118,8 @@ graph TD
     style B_Veto fill:#490202,stroke:#f85149,stroke-width:1px,color:#ff7b72
     style B_Pass fill:#04260f,stroke:#238636,stroke-width:1px,color:#3fb950
 ```
+
+---
 
 ## 4. Core Capabilities
 
