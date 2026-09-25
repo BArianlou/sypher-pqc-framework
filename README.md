@@ -67,7 +67,7 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
 5. RL-driven routing and scheme rotation
 ```mermaid
 graph TD
-    Client["<b>CLIENT / INGRESS</b><br/>POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD UUID)<br/>Payload: 12B Nonce || P_e (32B) || Ciphertext || 16B Tag"]
+    Client["<b>CLIENT / INGRESS</b><br/>POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD UUID)<br/>Payload: 12B Nonce || P<sub>e</sub> (32B) || Ciphertext || 16B Tag"]
 
     subgraph Sypher["SYPHER ARCHITECTURE"]
         direction TB
