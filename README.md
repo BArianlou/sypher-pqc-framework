@@ -67,7 +67,7 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
 graph TD
     Client["<b>CLIENT / INGRESS</b><br/>POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD UUID)<br/>Payload: 12B Nonce || P<sub>e</sub> (32B) || Ciphertext || 16B Tag"]
 
-    subgraph Sypher["SYPHER ARCHITECTURE"]
+    subgraph Sypher["SYPHER TRIUNE ARCHITECTURE"]
         direction TB
 
         subgraph L1["LAYER 1: JAVA 17 ENTERPRISE GATEWAY"]
@@ -115,7 +115,6 @@ graph TD
     style B_Veto fill:#490202,stroke:#f85149,stroke-width:1px,color:#ff7b72
     style B_Pass fill:#04260f,stroke:#238636,stroke-width:1px,color:#3fb950
 ```
-
 
 ## 4. Core Capabilities
 
