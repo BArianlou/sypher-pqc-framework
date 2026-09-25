@@ -9,7 +9,9 @@
 **Architect:** Bijan Arianlou  
 **Role:** Principal Systems Architect  
 **Status:** Reference Implementation (v1.1)  
-**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing
+**Core Logic:** Hybrid Key Encapsulation (KEM)<img width="300" height="242" alt="image" src="https://github.com/user-attachments/assets/ffdc80c1-564b-4a4a-942a-3689633f5ea4" />
+<img width="300" height="242" alt="image" src="https://github.com/user-attachments/assets/980bb4bb-47f1-4750-8564-d29e851a7d27" />
+ + Deep Q-Network (DQN) Routing
 
 ---
 
@@ -91,8 +93,8 @@ graph TD
         end
 
         subgraph L3["LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE"]
-            C1["Decapsulate Shared Secret: K = s_r &bull; P_e (Kyber-768 / X25519)"]
-            C2["Derive Symmetric Key: HKDF-SHA256(K || P_e)"]
+            C1["Decapsulate Shared Secret: K = s<sub>r</sub> · P<sub>e</sub><br/>(Kyber-768 / X25519)"]
+            C2["Derive Symmetric Key: HKDF-SHA256(K || P<sub>e</sub>)"]
             C3["Verify Galois GHASH Tag (Session AAD Binding)"]
             C4["Adversarial DQN Policy Step (Huber Loss Gradient Clamping)"]
 
