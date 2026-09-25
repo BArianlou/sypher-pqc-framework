@@ -65,7 +65,59 @@ Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)**
 3. HKDF-SHA256 expansion with transcript binding  
 4. AES-256-GCM authenticated encryption (28-byte minimum envelope)  
 5. RL-driven routing and scheme rotation
----
+```mermaid
+graph TD
+    Client["<b>CLIENT / INGRESS</b><br/>POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD UUID)<br/>Payload: 12B Nonce || P_e (32B) || Ciphertext || 16B Tag"]
+
+    subgraph Sypher["SYPHER TRIUNE ARCHITECTURE"]
+        direction TB
+
+        subgraph L1["LAYER 1: JAVA 17 ENTERPRISE GATEWAY"]
+            A1["Spring Boot Non-Blocking Async Ingestion"]
+            A2["Perimeter Check: Validate Payload &ge; 28 Bytes"]
+            A3["Header Check: Validate Session AAD Context"]
+            A1 --> A2 --> A3
+        end
+
+        subgraph L2["LAYER 2: C++20 NATIVE HARDWARE GUARD"]
+            B1["Microarchitectural Lock-Free Core (alignas(64) Ring Buffer)"]
+            B2{"isfinite(action_value) &amp;<br/>state_variance &le; max_variance_bound"}
+            B_Veto["<b>STRUCTURAL VETO</b><br/>transition_prob = 0.0"]
+            B_Pass["Commit Slot via std::memory_order_release"]
+
+            B1 --> B2
+            B2 -- FAIL --> B_Veto
+            B2 -- PASS --> B_Pass
+        end
+
+        subgraph L3["LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE"]
+            C1["Decapsulate Shared Secret: K = s_r &bull; P_e (Kyber-768 / X25519)"]
+            C2["Derive Symmetric Key: HKDF-SHA256(K || P_e)"]
+            C3["Verify Galois GHASH Tag (Session AAD Binding)"]
+            C4["Adversarial DQN Policy Step (Huber Loss Gradient Clamping)"]
+
+            C1 --> C2 --> C3 --> C4
+        end
+
+        A3 -- "Telemetry: Action ID, Q-Value, State Variance" --> B1
+        B_Pass --> C1
+    end
+
+    Validated["<b>CLIENT / INGRESS</b><br/>200 OK (Execution Validated)"]
+
+    Client --> A1
+    C4 --> Validated
+
+    style Client fill:#161b22,stroke:#30363d,stroke-width:1px,color:#c9d1d9
+    style Validated fill:#161b22,stroke:#238636,stroke-width:1px,color:#3fb950
+    style Sypher fill:#0d1117,stroke:#388bfd,stroke-width:2px,color:#58a6ff
+    style L1 fill:#161b22,stroke:#f0883e,stroke-width:1px,color:#ffa657
+    style L2 fill:#161b22,stroke:#58a6ff,stroke-width:1px,color:#79c0ff
+    style L3 fill:#161b22,stroke:#bc8cff,stroke-width:1px,color:#d2a8ff
+    style B_Veto fill:#490202,stroke:#f85149,stroke-width:1px,color:#ff7b72
+    style B_Pass fill:#04260f,stroke:#238636,stroke-width:1px,color:#3fb950
+```
+
 
 ## 4. Core Capabilities
 
