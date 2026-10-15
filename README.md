@@ -1,153 +1,117 @@
-# SYPHER: Post-Quantum Cryptographic Intelligence & Routing Engine
+# SYPHER: Post-Quantum Cryptographic Intelligence & Dynamic Routing Engine
 
-[![Sypher Security Integrity Audit](https://github.com/barianlou/sypher/actions/workflows/sypher_security_audit.yml/badge.svg)](https://github.com/barianlou/sypher/actions)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
-![Java](https://img.shields.io/badge/Java-17%20LTS-orange.svg)
-![C++](https://img.shields.io/badge/C%2B%2B-20-darkblue.svg)
+[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
+[![C++20](https://img.shields.io/badge/C%2B%2B-20%20Standard-blue.svg)](https://en.cppreference.com/w/cpp/20)
+[![Java 17](https://img.shields.io/badge/Java-17%20LTS-orange.svg)](https://aws.amazon.com/corretto/)
+[![Post--Quantum](https://img.shields.io/badge/PQC-NIST%20FIPS%20203%20(ML--KEM)-green.svg)](https://csrc.nist.gov/pubs/fips/203/final)
+[![Kafka](https://img.shields.io/badge/Apache%20Kafka-Distributed%20Ingestion-black.svg)](https://kafka.apache.org/)
 
-**Architect:** Bijan Arianlou  
-**Role:** Principal Systems Architect  
-**Status:** Reference Implementation (v1.1)  
-**Core Logic:** Hybrid Key Encapsulation (KEM) + Deep Q-Network (DQN) Routing
+**Architect:** Bijan Arianlou, MSEE  
+**Role:** Principal Solutions & Systems Architect  
+**Status:** Production Reference Architecture (v1.1)  
+**Core Logic:** Hybrid Post-Quantum Key Encapsulation (ML-KEM/Kyber) + Deep Q-Network (DQN) Routing  
 
 ---
 
 ## 1. Architectural Intent
 
-Sypher is a modular, reinforcement-driven cryptographic framework engineered to secure data transport against future quantum-decryption threats (“Store Now, Decrypt Later”). Unlike static cryptographic libraries, Sypher incorporates an autonomic **Deep Q-Network (DQN)** that continuously optimizes cryptographic routing under adversarial conditions such as DDoS floods, quantum-harvesting telemetry, and high-variance network volatility.
+**SYPHER** is a modular, reinforcement-driven cryptographic routing framework engineered to secure distributed data transport against Harvest Now, Decrypt Later (HNDL) quantum threats. Moving beyond static cryptographic cipher negotiation, SYPHER incorporates an adaptive Deep Q-Network (DQN) policy that continuously optimizes cipher selection, encapsulation parameters, and packet routing under non-stationary network conditions (such as high packet variance, congestion, and distributed denial-of-service pressure).
 
-The system implements a hybrid protocol combining:
+The system implements a production hybrid cryptographic protocol:
+* **ML-KEM / Kyber-768 (NIST FIPS 203):** Lattice-based post-quantum key encapsulation mechanism (KEM).
+* **X25519 Hybridization:** Classical elliptic-curve Diffie-Hellman fallback ensuring dual-layer security guarantees.
+* **AES-256-GCM:** Authenticated Encryption with Associated Data (AEAD) for payload privacy and tamper-evidence.
+* **HKDF-SHA256:** Cryptographic key derivation function enforcing transcript-bound shared secret expansion.
 
-- **ML-KEM / Kyber-768** profile for post-quantum key encapsulation  
-- **AES-256-GCM** for authenticated payload transport  
-- **HKDF-SHA256** for deterministic secret expansion  
+### Cryptographic Viability Objective
+The adaptive routing agent evaluates scheme feasibility via a multi-objective cost function:
 
-All governed by the **Hybrid_PQC_Evaluation** invariant:
+$$\text{ViabilityScore}_t = (w_1 \cdot \text{SecurityMargin}_t) - (w_2 \cdot \text{LatencyOverhead}_t) - (w_3 \cdot \text{PayloadOverhead}_t)$$
 
-> **Viability_Score** = (w₁ · Security_Level) − (w₂ · Latency_Overhead) − (w₃ · Size_Overhead)
+Where weights $w_1, w_2, w_3$ dynamically shift based on network congestion indices and endpoint threat telemetry.
 
 ---
 
-## 2. Language & System Integration (Triune Stack)
+## 2. Multi-Runtime Architecture
 
-### Python 3.10 — Autonomic ML Core
+SYPHER employs a polyglot execution topology designed to isolate compute-heavy tensor operations, high-throughput network ingestion, and nanosecond-level safety guards:
+[ Inbound Network Traffic / Telemetry Feeds ]
+│
+▼
+[ Java 17 / Spring Boot Gateway (Asynchronous I/O) ]
+│
+┌─────────────┴─────────────┐
+▼                           ▼
+[ C++20 Hardware Guard ]    [ Python 3.10 ML Core ]
 
-- TensorFlow (DQN policy backbone)  
-- Gymnasium (MDP simulation)  
-- Cryptography (AES-GCM, HKDF, X25519/Kyber primitives)  
-- Implements adversarial training, Bellman updates, and state-space clamping.
+Lock-Free Ring Buffer     - DQN Policy Approximator
+
+Cache-Aligned (64-byte)   - Gymnasium MDP Simulation
+
+Deterministic Circuit     - Adversarial Reward Function
+Breaker (O(1))
+### Python 3.10 — Adaptive Reinforcement Learning Core
+* **TensorFlow / Keras:** Deep Q-Network (DQN) policy model with Huber loss stabilization and experience replay for dynamic cipher parameter selection.
+* **Gymnasium:** Custom Markov Decision Process (MDP) modeling adversarial network environments, channel volatility, and latency degradation.
+* **Cryptographic Bindings:** Python primitives for X25519, Kyber-768, HKDF-SHA256, and AES-256-GCM verification.
 
 ### Java 17 — Enterprise Integration Gateway
+* **Spring Boot & Kafka:** Asynchronous REST and Kafka stream consumers handling high-throughput encrypted state vectors and telemetry metadata.
+* **Non-Blocking Concurrency:** `CompletableFuture` reactive pipelines decoupling payload ingestion from policy evaluation.
+* **Envelope Enforcement:** Validates strict payload schema boundaries (including a 28-byte minimum AEAD header/tag envelope) and manages session context security.
 
-- Spring Boot asynchronous REST/Kafka ingestion  
-- Non-blocking `CompletableFuture` pipelines  
-- High-throughput ingestion of encrypted state vectors  
-- Enforces geometric payload boundaries (28-byte minimum envelope) and session-context fidelity.
-
-### C++20 — Native Hardware Guard
-
-- Zero-allocation, cache-aligned (64-byte) atomic ring buffers  
-- Enforces **Structural_Veto_Gate** and **Bayesian_Dampener** at L1/L2 cache speed  
-- Deterministic O(1) memory residency  
-- Hardware-level veto against variance spikes and non-finite tensor outputs.
+### C++20 — Low-Latency Native Hardware Guard
+* **Lock-Free Concurrency:** Zero-allocation, cache-line-aligned (64-byte) atomic ring buffers providing deterministic $O(1)$ memory residency.
+* **Deterministic Circuit Breakers:** Nanosecond-level boundary checking to prevent non-finite tensor outputs, buffer overflows, or catastrophic latency degradation from reaching downstream networks.
+* **Memory Isolation:** Strict decoupling of ephemeral key memory with immediate zeroization passes (`memset_s`) upon session closure.
 
 ---
 
-## 3. Protocol Sequence (The Handshake)
+## 3. Protocol Handshake Sequence
 
-Sypher establishes secure channels using a **Key Encapsulation Mechanism (KEM)** rather than RSA/ECC. The RL agent continuously evaluates threat telemetry and latency to select optimal encapsulation strategies.
+SYPHER establishes authenticated, forward-secure sessions using an optimized Key Encapsulation Mechanism (KEM) workflow:
 
-**Flow:**
-
-1. Ephemeral PQC / X25519 keypair generation  
-2. Kyber-768 baseline encapsulation  
-3. HKDF-SHA256 expansion with transcript binding  
-4. AES-256-GCM authenticated encryption (28-byte minimum envelope)  
-5. RL-driven routing and scheme rotation  
-
-```mermaid
-graph TD
-    Client["<b>CLIENT / INGRESS</b><br/>POST /api/v1/sypher/secure-inference<br/>Header: X-Session-ID (AAD UUID)<br/>Payload: 12B Nonce || P<sub>e</sub> (32B) || Ciphertext || 16B Tag"]
-
-    subgraph Sypher["SYPHER TRIUNE ARCHITECTURE"]
-        direction TB
-
-        subgraph L1["LAYER 1: JAVA 17 ENTERPRISE GATEWAY"]
-            A1["Spring Boot Non-Blocking Async Ingestion"]
-            A2["Perimeter Check: Validate Payload &ge; 28 Bytes"]
-            A3["Header Check: Validate Session AAD Context"]
-            A1 --> A2 --> A3
-        end
-
-        subgraph L2["LAYER 2: C++20 NATIVE HARDWARE GUARD"]
-            B1["Microarchitectural Lock-Free Core (alignas(64) Ring Buffer)"]
-            B2{"isfinite(action_value) &amp;<br/>state_variance &le; max_variance_bound"}
-            B_Veto["<b>STRUCTURAL VETO</b><br/>transition_prob = 0.0"]
-            B_Pass["Commit Slot via std::memory_order_release"]
-
-            B1 --> B2
-            B2 -- FAIL --> B_Veto
-            B2 -- PASS --> B_Pass
-        end
-
-        subgraph L3["LAYER 3: PYTHON 3.10 AUTONOMIC ML CORE"]
-            C1["Decapsulate Shared Secret: K = s<sub>r</sub> · P<sub>e</sub><br/>(Kyber-768 / X25519)"]
-            C2["Derive Symmetric Key: HKDF-SHA256(K || P<sub>e</sub>)"]
-            C3["Verify Galois GHASH Tag (Session AAD Binding)"]
-            C4["Adversarial DQN Policy Step (Huber Loss Gradient Clamping)"]
-
-            C1 --> C2 --> C3 --> C4
-        end
-
-        A3 -- "Telemetry: Action ID, Q-Value, State Variance" --> B1
-        B_Pass --> C1
-    end
-
-    Validated["<b>CLIENT / INGRESS</b><br/>200 OK (Execution Validated)"]
-
-    Client --> A1
-    C4 --> Validated
-
-    style Client fill:#161b22,stroke:#30363d,stroke-width:1px,color:#c9d1d9
-    style Validated fill:#161b22,stroke:#238636,stroke-width:1px,color:#3fb950
-    style Sypher fill:#0d1117,stroke:#388bfd,stroke-width:2px,color:#58a6ff
-    style L1 fill:#161b22,stroke:#f0883e,stroke-width:1px,color:#ffa657
-    style L2 fill:#161b22,stroke:#58a6ff,stroke-width:1px,color:#79c0ff
-    style L3 fill:#161b22,stroke:#bc8cff,stroke-width:1px,color:#d2a8ff
-    style B_Veto fill:#490202,stroke:#f85149,stroke-width:1px,color:#ff7b72
-    style B_Pass fill:#04260f,stroke:#238636,stroke-width:1px,color:#3fb950
-```
+1. **Ephemeral Key Generation:** Generates ephemeral post-quantum (ML-KEM / Kyber-768) and classical (X25519) keypairs per session.
+2. **Hybrid Encapsulation:** Encapsulates the shared secret, emitting the corresponding ciphertext tokens and public material.
+3. **HKDF-SHA256 Transcript Binding:** Binds exchange parameters, nonces, and identities into a single symmetric key via HKDF expansion.
+4. **AEAD Encryption:** Encrypts payloads using AES-256-GCM with unique 96-bit initialization vectors (IVs) and associated authenticated data (AAD).
+5. **Adaptive Policy Evaluation:** The DQN agent monitors real-time round-trip time (RTT), throughput, and drop rates, dynamically cycling encapsulation strategies or adjusting key refresh intervals.
 
 ---
 
 ## 4. Core Capabilities
 
-- **Quantum Resistance:** Kyber-768 lattice-based KEM profile with optional X25519 hybridization.  
-- **Forward Secrecy:** Ephemeral secrets + deterministic HKDF expansion.  
-- **Autonomic Adversarial Defense:** DQN-driven scheme rotation, Huber-loss stabilization, and state-space clamping.  
-- **Absolute Data Supremacy:** AES-256-GCM AEAD binds payloads to session-specific AAD, neutralizing replay vectors.  
-- **Deterministic Hardware Guardrails:** C++20 atomic ring buffers enforce nanosecond-level veto decisions.
+* **Quantum Resistance:** Production ML-KEM (Kyber-768) lattice-based key encapsulation compliant with modern post-quantum migration benchmarks.
+* **Forward Secrecy:** Enforces strictly ephemeral session keys paired with deterministic transcript binding.
+* **Adaptive Defense Routing:** DQN policy adjusts cipher selection dynamically to balance confidentiality needs against transient network degradation.
+* **Replay Protection & Nonce Hygiene:** AES-256-GCM AEAD construction binds session metadata into authenticated headers, neutralizing replay vectors.
+* **Hardware-Level Circuit Breakers:** C++20 atomic modules enforce hard operational thresholds at L1/L2 cache speeds.
 
 ---
 
-## 5. Implementation Notice
-
-This repository is a **Reference Architecture**.  
-Direct use of raw cryptographic primitives in production environments requires formal review.
-
-For enterprise integration, native C++ bindings, or deployment documentation:  
-**Contact the Architect.**
-
----
-
-## 6. Repository Structure (Triune Layout)
+## 5. Repository Architecture
 
 ```text
-/ml-engine              # Python DQN + PQC cryptographic core
-/java-gateway           # Spring Boot REST/Kafka ingestion layer
-/native_cpp             # C++20 hardware guard (zero-allocation, lock-free)
-/tests                  # Deterministic SCIENTIFIC_VALIDATION suite
-Dockerfile              # Polyglot container architecture
-requirements.txt        # Deterministic dependency graph
-```
+sypher-pqc-engine/
+├── .github/
+│   └── workflows/
+│       ├── polyglot_ci.yml         # Dual-runtime validation (Python, Java, C++20)
+│       └── security_audit.yml      # Static analysis, memory sanitizers, and linters
+├── src/
+│   ├── ml_engine/                  # Python DQN policy graphs and Gymnasium MDP
+│   ├── java_gateway/               # Spring Boot Kafka ingestion and REST interfaces
+│   └── native_cpp/                 # C++20 lock-free ring buffers and circuit breakers
+├── tests/
+│   ├── test_kem_handshake.py       # PQC encapsulation and cryptographic validation
+│   └── test_cpp_ring_buffer.cpp    # Concurrency and cache-alignment unit checks
+├── Dockerfile                      # Multi-stage polyglot container build
+├── requirements.txt                # Pinned Python dependencies
+└── README.md                       # Architectural specification and documentation
+6. Implementation & Compliance Notice
+This repository contains the Reference Architecture, multi-runtime integration wrappers, and simulation environments. Deployment into production critical infrastructure mandates formal cryptographic boundary audits, validated Hardware Security Module (HSM) key roots, and adherence to organization-specific cryptographic governance standards.
+
+For enterprise integration manifests, native C++ bindings, or distributed deployment specifications:
+
+Architect: Bijan Arianlou, MSEE
+
+Role: Principal Solutions & Systems Architect
