@@ -83,7 +83,6 @@ SYPHER establishes authenticated, forward-secure sessions using an optimized hyb
 ## 5. Repository Architecture
 
 ```text
-```text
 sypher-pqc-engine/
 ├── .github/
 │   └── workflows/
@@ -100,7 +99,6 @@ sypher-pqc-engine/
 ├── requirements.txt                # Pinned Python dependencies
 └── README.md                       # Architectural specification and documentation
 ```
-
 ## 6. Implementation & Compliance Notice
 This repository contains the Reference Architecture, multi-runtime integration wrappers, and simulation environments. Production deployment requires:
 
