@@ -102,13 +102,14 @@ sypher-pqc-engine/
 ## 6. Implementation & Compliance Notice
 This repository contains the Reference Architecture, multi-runtime integration wrappers, and simulation environments. Production deployment requires:
 
-formal cryptographic boundary audits
+* Formal cryptographic boundary audits
 
-validated Hardware Security Module (HSM) key roots
+* Validated Hardware Security Module (HSM) key roots
 
-organization-specific governance compliance
+* Organization-specific governance compliance
 
 For enterprise integration manifests, native C++ bindings, or distributed deployment specifications:
-Architect: Bijan Arianlou, MSEE
-Role: Principal Solutions & Systems Architect
 
+Architect: Bijan Arianlou, MSEE
+
+Role: Principal Solutions & Systems Architect
