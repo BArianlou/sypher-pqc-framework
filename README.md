@@ -66,13 +66,22 @@ SYPHER establishes authenticated, forward-secure sessions using an optimized Key
 
 ## 5. Repository Architecture
 
-* `src/ml_engine/`: Python DQN policy graphs and Gymnasium MDP
-* `src/java_gateway/`: Spring Boot Kafka ingestion and REST interfaces
-* `src/native_cpp/`: C++20 lock-free ring buffers and circuit breakers
-* `tests/`: PQC encapsulation and cryptographic validation suites
-* `Dockerfile`: Multi-stage polyglot container build
-* `requirements.txt`: Pinned Python dependencies
-* `.github/workflows/`: CI/CD multi-runtime validation pipelines
+```text
+sypher-pqc-engine/
+├── .github/
+│   └── workflows/
+│       ├── polyglot_ci.yml         # Dual-runtime validation (Python, Java, C++20)
+│       └── security_audit.yml      # Static analysis, memory sanitizers, and linters
+├── src/
+│   ├── ml_engine/                  # Python DQN policy graphs and Gymnasium MDP
+│   ├── java_gateway/               # Spring Boot Kafka ingestion and REST interfaces
+│   └── native_cpp/                 # C++20 lock-free ring buffers and circuit breakers
+├── tests/
+│   ├── test_kem_handshake.py       # PQC encapsulation and cryptographic validation
+│   └── test_cpp_ring_buffer.cpp    # Concurrency and cache-alignment unit checks
+├── Dockerfile                      # Multi-stage polyglot container build
+├── requirements.txt                # Pinned Python dependencies
+└── README.md                       # Architectural specification and documentation
 
 ---
 
