@@ -35,35 +35,10 @@ Where weights $w_1, w_2, w_3$ dynamically shift based on network congestion indi
 ## 2. Multi-Runtime Architecture
 
 SYPHER employs a polyglot execution topology designed to isolate compute-heavy tensor operations, high-throughput network ingestion, and nanosecond-level safety guards:
-[ Inbound Network Traffic / Telemetry Feeds ]
-│
-▼
-[ Java 17 / Spring Boot Gateway (Asynchronous I/O) ]
-│
-┌─────────────┴─────────────┐
-▼                           ▼
-[ C++20 Hardware Guard ]    [ Python 3.10 ML Core ]
 
-Lock-Free Ring Buffer     - DQN Policy Approximator
-
-Cache-Aligned (64-byte)   - Gymnasium MDP Simulation
-
-Deterministic Circuit     - Adversarial Reward Function
-Breaker (O(1))
-### Python 3.10 — Adaptive Reinforcement Learning Core
-* **TensorFlow / Keras:** Deep Q-Network (DQN) policy model with Huber loss stabilization and experience replay for dynamic cipher parameter selection.
-* **Gymnasium:** Custom Markov Decision Process (MDP) modeling adversarial network environments, channel volatility, and latency degradation.
-* **Cryptographic Bindings:** Python primitives for X25519, Kyber-768, HKDF-SHA256, and AES-256-GCM verification.
-
-### Java 17 — Enterprise Integration Gateway
-* **Spring Boot & Kafka:** Asynchronous REST and Kafka stream consumers handling high-throughput encrypted state vectors and telemetry metadata.
-* **Non-Blocking Concurrency:** `CompletableFuture` reactive pipelines decoupling payload ingestion from policy evaluation.
-* **Envelope Enforcement:** Validates strict payload schema boundaries (including a 28-byte minimum AEAD header/tag envelope) and manages session context security.
-
-### C++20 — Low-Latency Native Hardware Guard
-* **Lock-Free Concurrency:** Zero-allocation, cache-line-aligned (64-byte) atomic ring buffers providing deterministic $O(1)$ memory residency.
-* **Deterministic Circuit Breakers:** Nanosecond-level boundary checking to prevent non-finite tensor outputs, buffer overflows, or catastrophic latency degradation from reaching downstream networks.
-* **Memory Isolation:** Strict decoupling of ephemeral key memory with immediate zeroization passes (`memset_s`) upon session closure.
+* **Python 3.10 — Adaptive Reinforcement Learning Core:** TensorFlow/Keras DQN policy model with Huber loss stabilization and experience replay for dynamic cipher parameter selection, paired with Gymnasium MDP simulation.
+* **Java 17 — Enterprise Integration Gateway:** Spring Boot & Kafka stream consumers handling high-throughput encrypted state vectors and telemetry metadata via non-blocking CompletableFuture reactive pipelines.
+* **C++20 — Low-Latency Native Hardware Guard:** Zero-allocation, cache-line-aligned (64-byte) atomic ring buffers providing deterministic O(1) memory residency and circuit breakers.
 
 ---
 
@@ -91,27 +66,20 @@ SYPHER establishes authenticated, forward-secure sessions using an optimized Key
 
 ## 5. Repository Architecture
 
-```text
-sypher-pqc-engine/
-├── .github/
-│   └── workflows/
-│       ├── polyglot_ci.yml         # Dual-runtime validation (Python, Java, C++20)
-│       └── security_audit.yml      # Static analysis, memory sanitizers, and linters
-├── src/
-│   ├── ml_engine/                  # Python DQN policy graphs and Gymnasium MDP
-│   ├── java_gateway/               # Spring Boot Kafka ingestion and REST interfaces
-│   └── native_cpp/                 # C++20 lock-free ring buffers and circuit breakers
-├── tests/
-│   ├── test_kem_handshake.py       # PQC encapsulation and cryptographic validation
-│   └── test_cpp_ring_buffer.cpp    # Concurrency and cache-alignment unit checks
-├── Dockerfile                      # Multi-stage polyglot container build
-├── requirements.txt                # Pinned Python dependencies
-└── README.md                       # Architectural specification and documentation
-6. Implementation & Compliance Notice
+* `src/ml_engine/`: Python DQN policy graphs and Gymnasium MDP
+* `src/java_gateway/`: Spring Boot Kafka ingestion and REST interfaces
+* `src/native_cpp/`: C++20 lock-free ring buffers and circuit breakers
+* `tests/`: PQC encapsulation and cryptographic validation suites
+* `Dockerfile`: Multi-stage polyglot container build
+* `requirements.txt`: Pinned Python dependencies
+* `.github/workflows/`: CI/CD multi-runtime validation pipelines
+
+---
+
+## 6. Implementation & Compliance Notice
+
 This repository contains the Reference Architecture, multi-runtime integration wrappers, and simulation environments. Deployment into production critical infrastructure mandates formal cryptographic boundary audits, validated Hardware Security Module (HSM) key roots, and adherence to organization-specific cryptographic governance standards.
 
-For enterprise integration manifests, native C++ bindings, or distributed deployment specifications:
-
-Architect: Bijan Arianlou, MSEE
-
-Role: Principal Solutions & Systems Architect
+For enterprise integration manifests, native C++ bindings, or distributed deployment specifications:  
+**Architect:** Bijan Arianlou, MSEE  
+**Role:** Principal Solutions & Systems Architect
