@@ -82,7 +82,7 @@ sypher-pqc-engine/
 ├── Dockerfile                      # Multi-stage polyglot container build
 ├── requirements.txt                # Pinned Python dependencies
 └── README.md                       # Architectural specification and documentation
-
+---
 ---
 
 ## 6. Implementation & Compliance Notice
